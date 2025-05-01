@@ -7,13 +7,17 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "dfke"
 		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
 		"AzureSqlDatabaseProduct_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AzureSqlDatabaseProduct'"
 		},
-		"AzureBlobStorage1_connectionString": {
+		"AdvWorksDb_password": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+			"metadata": "Secure string for 'password' of 'AdvWorksDb'"
 		},
 		"AzureSqlDatabaseProduct_properties_typeProperties_server": {
 			"type": "string",
@@ -26,6 +30,18 @@
 		"AzureSqlDatabaseProduct_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "keshav"
+		},
+		"AdvWorksDb_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "server010525.database.windows.net"
+		},
+		"AdvWorksDb_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "db010525"
+		},
+		"AdvWorksDb_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Keshav"
 		},
 		"containerUri": {
 			"type": "string",
@@ -54,11 +70,14 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"AzureBlobStorage1_connectionString": {
+						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					},
 					"AzureSqlDatabaseProduct_password": {
 						"value": "[parameters('AzureSqlDatabaseProduct_password')]"
 					},
-					"AzureBlobStorage1_connectionString": {
-						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					"AdvWorksDb_password": {
+						"value": "[parameters('AdvWorksDb_password')]"
 					},
 					"AzureSqlDatabaseProduct_properties_typeProperties_server": {
 						"value": "[parameters('AzureSqlDatabaseProduct_properties_typeProperties_server')]"
@@ -68,6 +87,15 @@
 					},
 					"AzureSqlDatabaseProduct_properties_typeProperties_userName": {
 						"value": "[parameters('AzureSqlDatabaseProduct_properties_typeProperties_userName')]"
+					},
+					"AdvWorksDb_properties_typeProperties_server": {
+						"value": "[parameters('AdvWorksDb_properties_typeProperties_server')]"
+					},
+					"AdvWorksDb_properties_typeProperties_database": {
+						"value": "[parameters('AdvWorksDb_properties_typeProperties_database')]"
+					},
+					"AdvWorksDb_properties_typeProperties_userName": {
+						"value": "[parameters('AdvWorksDb_properties_typeProperties_userName')]"
 					}
 				}
 			},

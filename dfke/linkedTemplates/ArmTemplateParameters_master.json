@@ -5,10 +5,13 @@
 		"factoryName": {
 			"value": "dfke"
 		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
 		"AzureSqlDatabaseProduct_password": {
 			"value": ""
 		},
-		"AzureBlobStorage1_connectionString": {
+		"AdvWorksDb_password": {
 			"value": ""
 		},
 		"AzureSqlDatabaseProduct_properties_typeProperties_server": {
@@ -19,6 +22,15 @@
 		},
 		"AzureSqlDatabaseProduct_properties_typeProperties_userName": {
 			"value": "keshav"
+		},
+		"AdvWorksDb_properties_typeProperties_server": {
+			"value": "server010525.database.windows.net"
+		},
+		"AdvWorksDb_properties_typeProperties_database": {
+			"value": "db010525"
+		},
+		"AdvWorksDb_properties_typeProperties_userName": {
+			"value": "Keshav"
 		},
 		"containerUri": {
 			"value": ""
