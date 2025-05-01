@@ -7,6 +7,26 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "dfke"
 		},
+		"AzureSqlDatabaseProduct_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AzureSqlDatabaseProduct'"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"AzureSqlDatabaseProduct_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "server010525.database.windows.net"
+		},
+		"AzureSqlDatabaseProduct_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "db010525"
+		},
+		"AzureSqlDatabaseProduct_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "keshav"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -33,6 +53,21 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"AzureSqlDatabaseProduct_password": {
+						"value": "[parameters('AzureSqlDatabaseProduct_password')]"
+					},
+					"AzureBlobStorage1_connectionString": {
+						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					},
+					"AzureSqlDatabaseProduct_properties_typeProperties_server": {
+						"value": "[parameters('AzureSqlDatabaseProduct_properties_typeProperties_server')]"
+					},
+					"AzureSqlDatabaseProduct_properties_typeProperties_database": {
+						"value": "[parameters('AzureSqlDatabaseProduct_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabaseProduct_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSqlDatabaseProduct_properties_typeProperties_userName')]"
 					}
 				}
 			},
