@@ -19,6 +19,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AdvWorksDb'"
 		},
+		"ADLSGen2_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ADLSGen2'"
+		},
 		"AzureSqlDatabaseProduct_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "server010525.database.windows.net"
@@ -42,6 +46,10 @@
 		"AdvWorksDb_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "Keshav"
+		},
+		"ADLSGen2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sadatafactory.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -79,6 +87,9 @@
 					"AdvWorksDb_password": {
 						"value": "[parameters('AdvWorksDb_password')]"
 					},
+					"ADLSGen2_accountKey": {
+						"value": "[parameters('ADLSGen2_accountKey')]"
+					},
 					"AzureSqlDatabaseProduct_properties_typeProperties_server": {
 						"value": "[parameters('AzureSqlDatabaseProduct_properties_typeProperties_server')]"
 					},
@@ -96,6 +107,9 @@
 					},
 					"AdvWorksDb_properties_typeProperties_userName": {
 						"value": "[parameters('AdvWorksDb_properties_typeProperties_userName')]"
+					},
+					"ADLSGen2_properties_typeProperties_url": {
+						"value": "[parameters('ADLSGen2_properties_typeProperties_url')]"
 					}
 				}
 			},

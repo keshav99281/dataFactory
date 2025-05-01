@@ -14,6 +14,9 @@
 		"AdvWorksDb_password": {
 			"value": ""
 		},
+		"ADLSGen2_accountKey": {
+			"value": ""
+		},
 		"AzureSqlDatabaseProduct_properties_typeProperties_server": {
 			"value": "server010525.database.windows.net"
 		},
@@ -31,6 +34,9 @@
 		},
 		"AdvWorksDb_properties_typeProperties_userName": {
 			"value": "Keshav"
+		},
+		"ADLSGen2_properties_typeProperties_url": {
+			"value": "https://sadatafactory.dfs.core.windows.net/"
 		}
 	}
 }
