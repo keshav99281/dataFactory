@@ -24,9 +24,6 @@
 			"transformations": [
 				{
 					"name": "derivedColumn1"
-				},
-				{
-					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -54,7 +51,11 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> ProductStream",
 				"ProductStream derive(calculatedmarkup = StandardCost/ListPrice) ~> derivedColumn1",
-				"derivedColumn1 select(mapColumn(",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
 				"          ProductID,",
 				"          Name,",
 				"          ProductNumber,",
@@ -71,13 +72,7 @@
 				"          rowguid,",
 				"          ModifiedDate,",
 				"          calculatedmarkup",
-				"     ),",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     )) ~> sink1"
 			]
 		}
 	}
