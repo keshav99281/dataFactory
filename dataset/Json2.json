@@ -1,0 +1,67 @@
+{
+	"name": "Json2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "product"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"ProductID": {
+					"type": "integer"
+				},
+				"Name": {
+					"type": "string"
+				},
+				"ProductNumber": {
+					"type": "string"
+				},
+				"Color": {
+					"type": "string"
+				},
+				"StandardCost": {
+					"type": "number"
+				},
+				"ListPrice": {
+					"type": "number"
+				},
+				"Size": {
+					"type": "string"
+				},
+				"Weight": {
+					"type": "number"
+				},
+				"ProductCategoryID": {
+					"type": "integer"
+				},
+				"ProductModelID": {
+					"type": "integer"
+				},
+				"SellStartDate": {
+					"type": "string"
+				},
+				"rowguid": {
+					"type": "string"
+				},
+				"ModifiedDate": {
+					"type": "string"
+				},
+				"calculatedmarkup": {
+					"type": "number"
+				},
+				"SellEndDate": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
