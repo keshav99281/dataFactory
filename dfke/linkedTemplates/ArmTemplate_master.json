@@ -7,6 +7,14 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "dfke"
 		},
+		"ADLSGen2_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ADLSGen2'"
+		},
+		"AdvWorksDb_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AdvWorksDb'"
+		},
 		"AzureBlobStorage1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
@@ -15,25 +23,17 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AzureSqlDatabaseProduct'"
 		},
-		"AdvWorksDb_password": {
+		"TaxiTripDb_password": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'AdvWorksDb'"
+			"metadata": "Secure string for 'password' of 'TaxiTripDb'"
 		},
-		"ADLSGen2_accountKey": {
+		"ADLSLinkedService_accountKey": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'ADLSGen2'"
+			"metadata": "Secure string for 'accountKey' of 'ADLSLinkedService'"
 		},
-		"AzureSqlDatabaseProduct_properties_typeProperties_server": {
+		"ADLSGen2_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "server010525.database.windows.net"
-		},
-		"AzureSqlDatabaseProduct_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "db010525"
-		},
-		"AzureSqlDatabaseProduct_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "keshav"
+			"defaultValue": "https://sadatafactory.dfs.core.windows.net/"
 		},
 		"AdvWorksDb_properties_typeProperties_server": {
 			"type": "string",
@@ -47,9 +47,33 @@
 			"type": "string",
 			"defaultValue": "Keshav"
 		},
-		"ADLSGen2_properties_typeProperties_url": {
+		"AzureSqlDatabaseProduct_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "https://sadatafactory.dfs.core.windows.net/"
+			"defaultValue": "server010525.database.windows.net"
+		},
+		"AzureSqlDatabaseProduct_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "db010525"
+		},
+		"AzureSqlDatabaseProduct_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "keshav"
+		},
+		"TaxiTripDb_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "server010525.database.windows.net"
+		},
+		"TaxiTripDb_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "taxi-data"
+		},
+		"TaxiTripDb_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "keshav"
+		},
+		"ADLSLinkedService_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlstripdata020525.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -78,26 +102,26 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"ADLSGen2_accountKey": {
+						"value": "[parameters('ADLSGen2_accountKey')]"
+					},
+					"AdvWorksDb_password": {
+						"value": "[parameters('AdvWorksDb_password')]"
+					},
 					"AzureBlobStorage1_connectionString": {
 						"value": "[parameters('AzureBlobStorage1_connectionString')]"
 					},
 					"AzureSqlDatabaseProduct_password": {
 						"value": "[parameters('AzureSqlDatabaseProduct_password')]"
 					},
-					"AdvWorksDb_password": {
-						"value": "[parameters('AdvWorksDb_password')]"
+					"TaxiTripDb_password": {
+						"value": "[parameters('TaxiTripDb_password')]"
 					},
-					"ADLSGen2_accountKey": {
-						"value": "[parameters('ADLSGen2_accountKey')]"
+					"ADLSLinkedService_accountKey": {
+						"value": "[parameters('ADLSLinkedService_accountKey')]"
 					},
-					"AzureSqlDatabaseProduct_properties_typeProperties_server": {
-						"value": "[parameters('AzureSqlDatabaseProduct_properties_typeProperties_server')]"
-					},
-					"AzureSqlDatabaseProduct_properties_typeProperties_database": {
-						"value": "[parameters('AzureSqlDatabaseProduct_properties_typeProperties_database')]"
-					},
-					"AzureSqlDatabaseProduct_properties_typeProperties_userName": {
-						"value": "[parameters('AzureSqlDatabaseProduct_properties_typeProperties_userName')]"
+					"ADLSGen2_properties_typeProperties_url": {
+						"value": "[parameters('ADLSGen2_properties_typeProperties_url')]"
 					},
 					"AdvWorksDb_properties_typeProperties_server": {
 						"value": "[parameters('AdvWorksDb_properties_typeProperties_server')]"
@@ -108,12 +132,50 @@
 					"AdvWorksDb_properties_typeProperties_userName": {
 						"value": "[parameters('AdvWorksDb_properties_typeProperties_userName')]"
 					},
-					"ADLSGen2_properties_typeProperties_url": {
-						"value": "[parameters('ADLSGen2_properties_typeProperties_url')]"
+					"AzureSqlDatabaseProduct_properties_typeProperties_server": {
+						"value": "[parameters('AzureSqlDatabaseProduct_properties_typeProperties_server')]"
+					},
+					"AzureSqlDatabaseProduct_properties_typeProperties_database": {
+						"value": "[parameters('AzureSqlDatabaseProduct_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabaseProduct_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSqlDatabaseProduct_properties_typeProperties_userName')]"
+					},
+					"TaxiTripDb_properties_typeProperties_server": {
+						"value": "[parameters('TaxiTripDb_properties_typeProperties_server')]"
+					},
+					"TaxiTripDb_properties_typeProperties_database": {
+						"value": "[parameters('TaxiTripDb_properties_typeProperties_database')]"
+					},
+					"TaxiTripDb_properties_typeProperties_userName": {
+						"value": "[parameters('TaxiTripDb_properties_typeProperties_userName')]"
+					},
+					"ADLSLinkedService_properties_typeProperties_url": {
+						"value": "[parameters('ADLSLinkedService_properties_typeProperties_url')]"
 					}
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "dfke_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'dfke_ArmTemplate_0')]"
+			]
 		}
 	]
 }

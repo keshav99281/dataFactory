@@ -5,26 +5,26 @@
 		"factoryName": {
 			"value": "dfke"
 		},
+		"ADLSGen2_accountKey": {
+			"value": ""
+		},
+		"AdvWorksDb_password": {
+			"value": ""
+		},
 		"AzureBlobStorage1_connectionString": {
 			"value": ""
 		},
 		"AzureSqlDatabaseProduct_password": {
 			"value": ""
 		},
-		"AdvWorksDb_password": {
+		"TaxiTripDb_password": {
 			"value": ""
 		},
-		"ADLSGen2_accountKey": {
+		"ADLSLinkedService_accountKey": {
 			"value": ""
 		},
-		"AzureSqlDatabaseProduct_properties_typeProperties_server": {
-			"value": "server010525.database.windows.net"
-		},
-		"AzureSqlDatabaseProduct_properties_typeProperties_database": {
-			"value": "db010525"
-		},
-		"AzureSqlDatabaseProduct_properties_typeProperties_userName": {
-			"value": "keshav"
+		"ADLSGen2_properties_typeProperties_url": {
+			"value": "https://sadatafactory.dfs.core.windows.net/"
 		},
 		"AdvWorksDb_properties_typeProperties_server": {
 			"value": "server010525.database.windows.net"
@@ -35,8 +35,26 @@
 		"AdvWorksDb_properties_typeProperties_userName": {
 			"value": "Keshav"
 		},
-		"ADLSGen2_properties_typeProperties_url": {
-			"value": "https://sadatafactory.dfs.core.windows.net/"
+		"AzureSqlDatabaseProduct_properties_typeProperties_server": {
+			"value": "server010525.database.windows.net"
+		},
+		"AzureSqlDatabaseProduct_properties_typeProperties_database": {
+			"value": "db010525"
+		},
+		"AzureSqlDatabaseProduct_properties_typeProperties_userName": {
+			"value": "keshav"
+		},
+		"TaxiTripDb_properties_typeProperties_server": {
+			"value": "server010525.database.windows.net"
+		},
+		"TaxiTripDb_properties_typeProperties_database": {
+			"value": "taxi-data"
+		},
+		"TaxiTripDb_properties_typeProperties_userName": {
+			"value": "keshav"
+		},
+		"ADLSLinkedService_properties_typeProperties_url": {
+			"value": "https://adlstripdata020525.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"value": ""
