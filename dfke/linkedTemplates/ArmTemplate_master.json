@@ -23,6 +23,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
 		},
+		"AzureBlobStorage2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage2'"
+		},
+		"AzureSqlDatabase_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AzureSqlDatabase'"
+		},
 		"AzureSqlDatabaseProduct_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AzureSqlDatabaseProduct'"
@@ -30,10 +38,6 @@
 		"TaxiTripDb_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'TaxiTripDb'"
-		},
-		"AzureBlobStorage2_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage2'"
 		},
 		"ADLSGen2_properties_typeProperties_url": {
 			"type": "string",
@@ -54,6 +58,18 @@
 		"AdvWorksDb_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "Keshav"
+		},
+		"AzureSqlDatabase_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "server010525.database.windows.net"
+		},
+		"AzureSqlDatabase_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "db010525"
+		},
+		"AzureSqlDatabase_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "keshav"
 		},
 		"AzureSqlDatabaseProduct_properties_typeProperties_server": {
 			"type": "string",
@@ -118,14 +134,17 @@
 					"AzureBlobStorage1_connectionString": {
 						"value": "[parameters('AzureBlobStorage1_connectionString')]"
 					},
+					"AzureBlobStorage2_connectionString": {
+						"value": "[parameters('AzureBlobStorage2_connectionString')]"
+					},
+					"AzureSqlDatabase_password": {
+						"value": "[parameters('AzureSqlDatabase_password')]"
+					},
 					"AzureSqlDatabaseProduct_password": {
 						"value": "[parameters('AzureSqlDatabaseProduct_password')]"
 					},
 					"TaxiTripDb_password": {
 						"value": "[parameters('TaxiTripDb_password')]"
-					},
-					"AzureBlobStorage2_connectionString": {
-						"value": "[parameters('AzureBlobStorage2_connectionString')]"
 					},
 					"ADLSGen2_properties_typeProperties_url": {
 						"value": "[parameters('ADLSGen2_properties_typeProperties_url')]"
@@ -141,6 +160,15 @@
 					},
 					"AdvWorksDb_properties_typeProperties_userName": {
 						"value": "[parameters('AdvWorksDb_properties_typeProperties_userName')]"
+					},
+					"AzureSqlDatabase_properties_typeProperties_server": {
+						"value": "[parameters('AzureSqlDatabase_properties_typeProperties_server')]"
+					},
+					"AzureSqlDatabase_properties_typeProperties_database": {
+						"value": "[parameters('AzureSqlDatabase_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabase_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSqlDatabase_properties_typeProperties_userName')]"
 					},
 					"AzureSqlDatabaseProduct_properties_typeProperties_server": {
 						"value": "[parameters('AzureSqlDatabaseProduct_properties_typeProperties_server')]"
