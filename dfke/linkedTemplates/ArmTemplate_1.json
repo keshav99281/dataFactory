@@ -13,6 +13,171 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/FlipkartParqet')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "flipkart"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/4 Stored Proc PL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy Products",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "ProductsTable",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Json1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "SP Update ModifiedDate",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "Copy Products",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[UpdateProducts]"
+						},
+						"linkedServiceName": {
+							"referenceName": "AdvWorksDb",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/db2blobcustomer')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "AzureSqlTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Json2",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/db2blobproduct')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -77,6 +242,124 @@
 					"elapsedTimeMetric": {}
 				},
 				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DFTripData')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "TripDataCsv",
+								"type": "DatasetReference"
+							},
+							"name": "TripDataCsv",
+							"description": "Import data from TripDataCsv"
+						},
+						{
+							"dataset": {
+								"referenceName": "TripFareCsv",
+								"type": "DatasetReference"
+							},
+							"name": "TripfaresTable",
+							"description": "Import data from TripFareCsv"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AggregatedTripData",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "InnerJoinTripFare"
+						},
+						{
+							"name": "aggregatePaymentType"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          medallion as string,",
+						"          hack_license as string,",
+						"          vendor_id as string,",
+						"          rate_code as short,",
+						"          store_and_fwd_flag as boolean,",
+						"          pickup_datetime as timestamp,",
+						"          dropoff_datetime as timestamp,",
+						"          passenger_count as short,",
+						"          trip_time_in_secs as short,",
+						"          trip_distance as double,",
+						"          pickup_longitude as double,",
+						"          pickup_latitude as double,",
+						"          dropoff_longitude as double,",
+						"          dropoff_latitude as double",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> TripDataCsv",
+						"source(output(",
+						"          medallion as string,",
+						"          hack_license as string,",
+						"          vendor_id as string,",
+						"          pickup_datetime as timestamp,",
+						"          payment_type as string,",
+						"          fare_amount as string,",
+						"          surcharge as string,",
+						"          mta_tax as string,",
+						"          tip_amount as string,",
+						"          tolls_amount as string,",
+						"          total_amount as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> TripfaresTable",
+						"TripDataCsv, TripfaresTable join(TripDataCsv@medallion == TripfaresTable@medallion",
+						"     && TripDataCsv@hack_license == TripfaresTable@hack_license",
+						"     && TripDataCsv@vendor_id == TripfaresTable@vendor_id",
+						"     && TripDataCsv@pickup_datetime == TripfaresTable@pickup_datetime,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> InnerJoinTripFare",
+						"InnerJoinTripFare aggregate(groupBy(payment_type),",
+						"     {Average fare} = avg(toInteger(total_amount)),",
+						"          {Total Trip Distance} = sum(toInteger(trip_distance))) ~> aggregatePaymentType",
+						"aggregatePaymentType sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          medallion as string,",
+						"          hack_license as string,",
+						"          vendor_id as string,",
+						"          rate_code as string,",
+						"          store_and_fwd_flag as string,",
+						"          pickup_datetime as string,",
+						"          dropoff_datetime as string,",
+						"          passenger_count as string,",
+						"          trip_time_in_secs as string,",
+						"          trip_distance as string,",
+						"          pickup_longitude as string,",
+						"          pickup_latitude as string,",
+						"          dropoff_longitude as string,",
+						"          dropoff_latitude as string",
+						"     ),",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
 			},
 			"dependsOn": []
 		},
@@ -231,7 +514,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DFTripData')]",
+			"name": "[concat(parameters('factoryName'), '/FlipkartDF')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -240,113 +523,174 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "TripDataCsv",
+								"referenceName": "FlipkartSource",
 								"type": "DatasetReference"
 							},
-							"name": "TripDataCsv",
-							"description": "Import data from TripDataCsv"
-						},
-						{
-							"dataset": {
-								"referenceName": "TripFareCsv",
-								"type": "DatasetReference"
-							},
-							"name": "TripfaresTable",
-							"description": "Import data from TripFareCsv"
+							"name": "source1"
 						}
 					],
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "AggregatedTripData",
+								"referenceName": "FlipkartParqet",
 								"type": "DatasetReference"
 							},
-							"name": "sink1"
+							"name": "FlipkartSink"
 						}
 					],
 					"transformations": [
 						{
-							"name": "InnerJoinTripFare"
+							"name": "LowRatingReviews"
 						},
 						{
-							"name": "aggregatePaymentType"
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "derivedColumn2"
 						}
 					],
 					"scriptLines": [
 						"source(output(",
-						"          medallion as string,",
-						"          hack_license as string,",
-						"          vendor_id as string,",
-						"          rate_code as short,",
-						"          store_and_fwd_flag as boolean,",
-						"          pickup_datetime as timestamp,",
-						"          dropoff_datetime as timestamp,",
-						"          passenger_count as short,",
-						"          trip_time_in_secs as short,",
-						"          trip_distance as double,",
-						"          pickup_longitude as double,",
-						"          pickup_latitude as double,",
-						"          dropoff_longitude as double,",
-						"          dropoff_latitude as double",
+						"          id as string,",
+						"          title as string,",
+						"          Rating as string,",
+						"          maincateg as string,",
+						"          platform as string,",
+						"          actprice1 as string,",
+						"          norating1 as string,",
+						"          noreviews1 as string,",
+						"          star_5f as string,",
+						"          star_4f as string,",
+						"          star_3f as string,",
+						"          star_2f as string,",
+						"          star_1f as string,",
+						"          fulfilled1 as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> TripDataCsv",
-						"source(output(",
-						"          medallion as string,",
-						"          hack_license as string,",
-						"          vendor_id as string,",
-						"          pickup_datetime as timestamp,",
-						"          payment_type as string,",
-						"          fare_amount as string,",
-						"          surcharge as string,",
-						"          mta_tax as string,",
-						"          tip_amount as string,",
-						"          tolls_amount as string,",
-						"          total_amount as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 filter(toInteger(norating1)<10 || toInteger(noreviews1)<10) ~> LowRatingReviews",
+						"LowRatingReviews derive(positive_review_ratio = toInteger(star_5f) / toInteger(norating1)) ~> derivedColumn1",
+						"derivedColumn1 derive(total_stars = toDouble(star_1f) + toDouble(star_2f) + toDouble(star_3f) + toDouble(star_4f) + toDouble(star_5f)) ~> derivedColumn2",
+						"derivedColumn2 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> TripfaresTable",
-						"TripDataCsv, TripfaresTable join(TripDataCsv@medallion == TripfaresTable@medallion",
-						"     && TripDataCsv@hack_license == TripfaresTable@hack_license",
-						"     && TripDataCsv@vendor_id == TripfaresTable@vendor_id",
-						"     && TripDataCsv@pickup_datetime == TripfaresTable@pickup_datetime,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> InnerJoinTripFare",
-						"InnerJoinTripFare aggregate(groupBy(payment_type),",
-						"     {Average fare} = avg(toInteger(total_amount)),",
-						"          {Total Trip Distance} = sum(toInteger(trip_distance))) ~> aggregatePaymentType",
-						"aggregatePaymentType sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          medallion as string,",
-						"          hack_license as string,",
-						"          vendor_id as string,",
-						"          rate_code as string,",
-						"          store_and_fwd_flag as string,",
-						"          pickup_datetime as string,",
-						"          dropoff_datetime as string,",
-						"          passenger_count as string,",
-						"          trip_time_in_secs as string,",
-						"          trip_distance as string,",
-						"          pickup_longitude as string,",
-						"          pickup_latitude as string,",
-						"          dropoff_longitude as string,",
-						"          dropoff_latitude as string",
-						"     ),",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
+						"     format: 'parquet',",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink1"
+						"     skipDuplicateMapOutputs: true) ~> FlipkartSink"
 					]
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/FlipkartParqet')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/6 Taxi Tip PL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "CopyTripData",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "TripDataTable",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "TripDataCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "DFTripData",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "CopyTripData",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DFTripData",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"TripDataCsv": {},
+									"TripfaresTable": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/DFTripData')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ProductMarkupPL')]",
@@ -441,14 +785,14 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/6 Taxi Tip PL')]",
+			"name": "[concat(parameters('factoryName'), '/Flipkart Data Pipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "CopyTripData",
-						"type": "Copy",
+						"name": "Flipkart Data Flow",
+						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -459,77 +803,14 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "TripDataTable",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "TripDataCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "DFTripData",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "CopyTripData",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
 							"dataflow": {
-								"referenceName": "DFTripData",
+								"referenceName": "FlipkartDF",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"TripDataCsv": {},
-									"TripfaresTable": {},
-									"sink1": {}
-								},
-								"linkedServiceParameters": {}
+									"source1": {},
+									"FlipkartSink": {}
+								}
 							},
 							"staging": {},
 							"compute": {
@@ -546,7 +827,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/DFTripData')]"
+				"[concat(variables('factoryId'), '/dataflows/FlipkartDF')]"
 			]
 		}
 	]

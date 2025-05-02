@@ -8,6 +8,9 @@
 		"ADLSGen2_accountKey": {
 			"value": ""
 		},
+		"ADLSLinkedService_accountKey": {
+			"value": ""
+		},
 		"AdvWorksDb_password": {
 			"value": ""
 		},
@@ -20,11 +23,14 @@
 		"TaxiTripDb_password": {
 			"value": ""
 		},
-		"ADLSLinkedService_accountKey": {
+		"AzureBlobStorage2_connectionString": {
 			"value": ""
 		},
 		"ADLSGen2_properties_typeProperties_url": {
 			"value": "https://sadatafactory.dfs.core.windows.net/"
+		},
+		"ADLSLinkedService_properties_typeProperties_url": {
+			"value": "https://adlstripdata020525.dfs.core.windows.net/"
 		},
 		"AdvWorksDb_properties_typeProperties_server": {
 			"value": "server010525.database.windows.net"
@@ -52,9 +58,6 @@
 		},
 		"TaxiTripDb_properties_typeProperties_userName": {
 			"value": "keshav"
-		},
-		"ADLSLinkedService_properties_typeProperties_url": {
-			"value": "https://adlstripdata020525.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"value": ""
