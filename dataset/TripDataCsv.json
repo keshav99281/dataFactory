@@ -1,5 +1,5 @@
 {
-	"name": "DelimitedText2",
+	"name": "TripDataCsv",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ADLSLinkedService",
