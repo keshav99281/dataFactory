@@ -39,6 +39,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'TaxiTripDb'"
 		},
+		"AdvWorksDBSales_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AdvWorksDBSales'"
+		},
 		"ADLSGen2_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://sadatafactory.dfs.core.windows.net/"
@@ -95,6 +99,18 @@
 			"type": "string",
 			"defaultValue": "keshav"
 		},
+		"AdvWorksDBSales_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "server010525.database.windows.net"
+		},
+		"AdvWorksDBSales_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "AdventureWorksDW2022"
+		},
+		"AdvWorksDBSales_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "keshav"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -146,6 +162,9 @@
 					"TaxiTripDb_password": {
 						"value": "[parameters('TaxiTripDb_password')]"
 					},
+					"AdvWorksDBSales_password": {
+						"value": "[parameters('AdvWorksDBSales_password')]"
+					},
 					"ADLSGen2_properties_typeProperties_url": {
 						"value": "[parameters('ADLSGen2_properties_typeProperties_url')]"
 					},
@@ -187,6 +206,15 @@
 					},
 					"TaxiTripDb_properties_typeProperties_userName": {
 						"value": "[parameters('TaxiTripDb_properties_typeProperties_userName')]"
+					},
+					"AdvWorksDBSales_properties_typeProperties_server": {
+						"value": "[parameters('AdvWorksDBSales_properties_typeProperties_server')]"
+					},
+					"AdvWorksDBSales_properties_typeProperties_database": {
+						"value": "[parameters('AdvWorksDBSales_properties_typeProperties_database')]"
+					},
+					"AdvWorksDBSales_properties_typeProperties_userName": {
+						"value": "[parameters('AdvWorksDBSales_properties_typeProperties_userName')]"
 					}
 				}
 			},
@@ -210,6 +238,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'dfke_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "dfke_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'dfke_ArmTemplate_1')]"
 			]
 		}
 	]

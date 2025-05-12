@@ -29,6 +29,9 @@
 		"TaxiTripDb_password": {
 			"value": ""
 		},
+		"AdvWorksDBSales_password": {
+			"value": ""
+		},
 		"ADLSGen2_properties_typeProperties_url": {
 			"value": "https://sadatafactory.dfs.core.windows.net/"
 		},
@@ -69,6 +72,15 @@
 			"value": "taxi-data"
 		},
 		"TaxiTripDb_properties_typeProperties_userName": {
+			"value": "keshav"
+		},
+		"AdvWorksDBSales_properties_typeProperties_server": {
+			"value": "server010525.database.windows.net"
+		},
+		"AdvWorksDBSales_properties_typeProperties_database": {
+			"value": "AdventureWorksDW2022"
+		},
+		"AdvWorksDBSales_properties_typeProperties_userName": {
 			"value": "keshav"
 		},
 		"containerUri": {
