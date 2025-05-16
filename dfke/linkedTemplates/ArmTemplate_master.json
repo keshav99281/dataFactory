@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ADLSLinkedService'"
 		},
+		"AdvWorksDBSales_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AdvWorksDBSales'"
+		},
 		"AdvWorksDb_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AdvWorksDb'"
@@ -39,9 +43,9 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'TaxiTripDb'"
 		},
-		"AdvWorksDBSales_password": {
+		"AzureDatabricks_accessToken": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'AdvWorksDBSales'"
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks'"
 		},
 		"ADLSGen2_properties_typeProperties_url": {
 			"type": "string",
@@ -50,6 +54,18 @@
 		"ADLSLinkedService_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlstripdata020525.dfs.core.windows.net/"
+		},
+		"AdvWorksDBSales_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "server010525.database.windows.net"
+		},
+		"AdvWorksDBSales_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "AdventureWorksDW2022"
+		},
+		"AdvWorksDBSales_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "keshav"
 		},
 		"AdvWorksDb_properties_typeProperties_server": {
 			"type": "string",
@@ -99,17 +115,9 @@
 			"type": "string",
 			"defaultValue": "keshav"
 		},
-		"AdvWorksDBSales_properties_typeProperties_server": {
+		"AzureDatabricks_properties_typeProperties_existingClusterId": {
 			"type": "string",
-			"defaultValue": "server010525.database.windows.net"
-		},
-		"AdvWorksDBSales_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "AdventureWorksDW2022"
-		},
-		"AdvWorksDBSales_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "keshav"
+			"defaultValue": "0516-042146-xb39vdty"
 		},
 		"containerUri": {
 			"type": "string",
@@ -144,6 +152,9 @@
 					"ADLSLinkedService_accountKey": {
 						"value": "[parameters('ADLSLinkedService_accountKey')]"
 					},
+					"AdvWorksDBSales_password": {
+						"value": "[parameters('AdvWorksDBSales_password')]"
+					},
 					"AdvWorksDb_password": {
 						"value": "[parameters('AdvWorksDb_password')]"
 					},
@@ -162,14 +173,23 @@
 					"TaxiTripDb_password": {
 						"value": "[parameters('TaxiTripDb_password')]"
 					},
-					"AdvWorksDBSales_password": {
-						"value": "[parameters('AdvWorksDBSales_password')]"
+					"AzureDatabricks_accessToken": {
+						"value": "[parameters('AzureDatabricks_accessToken')]"
 					},
 					"ADLSGen2_properties_typeProperties_url": {
 						"value": "[parameters('ADLSGen2_properties_typeProperties_url')]"
 					},
 					"ADLSLinkedService_properties_typeProperties_url": {
 						"value": "[parameters('ADLSLinkedService_properties_typeProperties_url')]"
+					},
+					"AdvWorksDBSales_properties_typeProperties_server": {
+						"value": "[parameters('AdvWorksDBSales_properties_typeProperties_server')]"
+					},
+					"AdvWorksDBSales_properties_typeProperties_database": {
+						"value": "[parameters('AdvWorksDBSales_properties_typeProperties_database')]"
+					},
+					"AdvWorksDBSales_properties_typeProperties_userName": {
+						"value": "[parameters('AdvWorksDBSales_properties_typeProperties_userName')]"
 					},
 					"AdvWorksDb_properties_typeProperties_server": {
 						"value": "[parameters('AdvWorksDb_properties_typeProperties_server')]"
@@ -207,14 +227,8 @@
 					"TaxiTripDb_properties_typeProperties_userName": {
 						"value": "[parameters('TaxiTripDb_properties_typeProperties_userName')]"
 					},
-					"AdvWorksDBSales_properties_typeProperties_server": {
-						"value": "[parameters('AdvWorksDBSales_properties_typeProperties_server')]"
-					},
-					"AdvWorksDBSales_properties_typeProperties_database": {
-						"value": "[parameters('AdvWorksDBSales_properties_typeProperties_database')]"
-					},
-					"AdvWorksDBSales_properties_typeProperties_userName": {
-						"value": "[parameters('AdvWorksDBSales_properties_typeProperties_userName')]"
+					"AzureDatabricks_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('AzureDatabricks_properties_typeProperties_existingClusterId')]"
 					}
 				}
 			},
